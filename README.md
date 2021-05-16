@@ -1,3 +1,21 @@
+# To run this app
+
+Please ensure that you have Node installed
+
+## Clone Repo
+`git clone https://github.com/shaunzo/AcmeBankAngularProject.git`
+
+## Install Dependencies
+1. cd into the project's mock-api-server directory and run `npm install` to install mock api dependencies (src/mock-api-server)
+2. cd to the projects root diectory and run another `npm install` to install angular dependencies
+
+## 1. Start Server
+From the project root directory run `npm run start_server`
+
+## 2. Start Application
+From the project root directory run `ng serve --o`
+
+
 # Material
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.5.
