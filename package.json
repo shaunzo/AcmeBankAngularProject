@@ -8,8 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "install_dependencies": "cd ./src/mock-api-server && npm install && cd ../ && npm install",
-    "run_app": "cd ./src/mock-api-server && npm run dev && cd ../ && ng serve --o"
+    "start_server": "cd ./src/mock-api-server && npm run dev"
   },
   "private": true,
   "dependencies": {
