@@ -11,6 +11,7 @@ import { environment } from 'src/environments/environment';
 })
 export class NavigationComponent {
   companyName: string = environment.global.company_name;
+  icon = `${environment.assets}/dollar-bag.svg`;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(

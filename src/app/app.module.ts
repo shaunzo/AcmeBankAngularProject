@@ -12,8 +12,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatDialogModule } from '@angular/material/dialog';
 import { HttpClientModule } from '@angular/common/http';
+import { AngularSvgIconModule } from 'angular-svg-icon';
 
-import { AccountsModule } from 'src/app/accounts/accounts.module';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -30,8 +31,9 @@ import { AccountsModule } from 'src/app/accounts/accounts.module';
     MatIconModule,
     MatListModule,
     MatDialogModule,
-    AccountsModule,
-    HttpClientModule
+    HttpClientModule,
+    AppRoutingModule,
+    AngularSvgIconModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

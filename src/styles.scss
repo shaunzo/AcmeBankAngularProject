@@ -2,3 +2,22 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.page-title {
+  background-color: #fff;
+  text-align: center;
+  padding: 20px
+}
+
+.toolbar-icon {
+  height: 45px;
+  margin-right: 10px;
+
+  svg-icon, svg {
+    height: 100%;
+
+    path {
+      fill: #fff;
+    }
+  }
+}

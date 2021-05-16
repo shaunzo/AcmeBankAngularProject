@@ -10,7 +10,8 @@ export const environment = {
   },
   api: {
     accounts: `${BASE_URL}/accounts`
-  }
+  },
+  assets: '/assets'
 };
 
 /*

@@ -7,6 +7,8 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AccountService } from './services/account.service';
+import { AccountsRoutingModule } from './accounts-routing.module';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 
 
@@ -18,7 +20,9 @@ import { AccountService } from './services/account.service';
     MatPaginatorModule,
     MatSortModule,
     MatButtonModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    AccountsRoutingModule,
+    MatToolbarModule
   ],
   exports: [AccountListComponent],
   providers: [AccountService]
