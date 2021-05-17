@@ -6,8 +6,8 @@ Please ensure that you have Node installed
 `git clone https://github.com/shaunzo/AcmeBankAngularProject.git`
 
 ## Install Dependencies
-1. cd into the project's mock-api-server directory and run `npm install` to install mock api dependencies (src/mock-api-server)
-2. cd to the projects root diectory and run another `npm install` to install angular dependencies
+1. In a terminal window, cd into the project's mock-api-server directory and run `npm install` to install mock api dependencies (src/mock-api-server)
+2. In a separate terminal window, cd to the projects root diectory and run another `npm install` to install angular dependencies
 
 ## 1. Start Server
 From the project root directory run `npm run start_server`
