@@ -14,6 +14,7 @@ From the project root directory run `npm run start_server`
 
 ## 2. Start Application
 From the project root directory run `ng serve --o`
+Once the command has executed, If the browser does not open on it's own, go to `http://localhost:4200`
 
 
 # Material

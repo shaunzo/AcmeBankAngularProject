@@ -23,6 +23,7 @@ export class AccountListComponent implements OnDestroy, OnInit {
   accountData: Account[];
   isLoadingResults = true;
   unsubscribe = new Subject();
+  totalBalance: number;
 
   displayedColumns = ['number', 'type', 'balance', 'action'];
 
@@ -47,6 +48,7 @@ export class AccountListComponent implements OnDestroy, OnInit {
       this.dataSource.paginator = this.paginator;
       this.table.dataSource = this.dataSource;
       this.isLoadingResults = false;
+      this.totalBalance = this.accountService.getTotalBalance(data);
     });
 
     this.accountService.isLoadingResults.pipe(takeUntil(this.unsubscribe))
