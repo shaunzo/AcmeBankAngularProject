@@ -3,7 +3,7 @@
       [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
       [mode]="(isHandset$ | async) ? 'over' : 'side'"
       [opened]="(isHandset$ | async) === false">
-    <mat-toolbar>Menu</mat-toolbar>
+    <mat-toolbar data-test="menu-toggle">Menu</mat-toolbar>
     <mat-nav-list>
       <a mat-list-item href="#">Accounts</a>
     </mat-nav-list>
@@ -18,7 +18,7 @@
         *ngIf="isHandset$ | async">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <span class="toolbar-icon"><svg-icon [src]="icon"></svg-icon></span><span>{{ companyName }}</span>
+      <span class="toolbar-icon"><svg-icon [src]="icon"></svg-icon></span><span data-test="companyName">{{ companyName }}</span>
     </mat-toolbar>
 
     <ng-content></ng-content>
