@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { Account } from '../interfaces/account.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -25,5 +26,20 @@ export class AccountService {
 
   withdraw(): void {
     alert('Success!');
+  }
+
+  getTotalBalance(accounts: Account[]): number {
+
+    const balances = accounts.map((i) => {
+      return +i.balance;
+    });
+
+    console.log(balances);
+
+    const total = balances.reduce((a, b) => a + b);
+    console.log(total);
+
+    return total;
+
   }
 }
