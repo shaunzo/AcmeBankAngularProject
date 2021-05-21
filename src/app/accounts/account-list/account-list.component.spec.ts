@@ -19,7 +19,6 @@ describe('AccountListComponent', () => {
   let fixture: ComponentFixture<AccountListComponent>;
   let httpClient: HttpClient;
   let service: AccountService;
-  let spy: any;
   const response = MockData;
 
   beforeEach(waitForAsync(() => {
