@@ -154,20 +154,20 @@ describe('AccountListComponent', () => {
 
   });
 
-  it('should display a total balance', fakeAsync(() => {
-    component.accountData = component.mapData(response);
+  it('should display a total balance', () => {
+    response[0].balance = -296.65;
+    component.accountData = response;
     component.dataSource = new AccountListDataSource(component.accountData);
     component.dataSource.sort = component.sort;
     component.dataSource.paginator = component.paginator;
     component.table.dataSource = component.dataSource;
     component.isLoadingResults = false;
     component.totalBalance = service.getTotalBalance(response);
+
     fixture.detectChanges();
 
     const total = fixture.nativeElement.querySelector('[data-test="total-balance"]');
     expect(total).toBeTruthy();
     expect(total.textContent).toEqual(' R 1,732.47 ');
-  }));
-
-
+  });
 });
