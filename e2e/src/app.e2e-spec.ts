@@ -8,9 +8,19 @@ describe('workspace-project App', () => {
     page = new AppPage();
   });
 
-  it('should display welcome message', async () => {
+  it('should display company name', async () => {
     await page.navigateTo();
-    expect(await page.getTitleText()).toEqual('material app is running!');
+    expect(await page.getCompanyNameText()).toEqual('Acme Bank');
+  });
+
+  it('should display the moneybag icon', async () => {
+    await page.navigateTo();
+    expect(await page.getToolBarIcon()).toEqual('45px');
+  });
+
+  it('should show buttons', async () => {
+    await page.navigateTo();
+    expect( await page.getButtonText()).toEqual('Withdraw');
   });
 
   afterEach(async () => {
