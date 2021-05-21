@@ -11,6 +11,8 @@ import { AccountListComponent } from './account-list.component';
 import { of } from 'rxjs';
 import { AccountListDataSource } from './account-list-datasource';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { AccountCurrent } from '../models/AccountCurrent.model';
+import { AccountSavings } from '../models/AccountSavings.model';
 
 describe('AccountListComponent', () => {
   let component: AccountListComponent;
@@ -169,5 +171,28 @@ describe('AccountListComponent', () => {
     const total = fixture.nativeElement.querySelector('[data-test="total-balance"]');
     expect(total).toBeTruthy();
     expect(total.textContent).toEqual(' R 1,732.47 ');
+  });
+
+  it('should not allow type savings, a withdrawal as long as it has a balance of 0 or less', () => {
+    const savingsNoWithdraw = new AccountSavings(0, '1234');
+    const savingsNoWithdraw2 = new AccountSavings(-10, '1234');
+    const savingsCanWithdraw = new AccountSavings(100, '1234');
+
+    expect(savingsNoWithdraw.canWithDraw).toBe(false);
+    expect(savingsNoWithdraw2.canWithDraw).toBe(false);
+    expect(savingsCanWithdraw.canWithDraw).toBe(true);
+  });
+
+  // an account of type cheque will allow a withdraw as long as it does not exceed the overdraft limit of 500
+  it('should all type cheque, a withdraw as long as it does not exceed the overdraft limit of 500', () => {
+    const chequeNoWithdraw = new AccountCurrent(-600, '1234');
+    const chequeWithdraw = new AccountCurrent(-300, '1234');
+    const chequeNoWithdraw2 = new AccountCurrent(-550, '1234');
+    const chequeWithdraw2 = new AccountCurrent(0, '1234');
+
+    expect(chequeNoWithdraw.canWithDraw).toBe(false);
+    expect(chequeWithdraw.canWithDraw).toBe(true);
+    expect(chequeNoWithdraw2.canWithDraw).toBe(false);
+    expect(chequeWithdraw2.canWithDraw).toBe(true);
   });
 });
