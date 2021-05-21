@@ -34,12 +34,8 @@ export class AccountService {
       return +i.balance;
     });
 
-    console.log(balances);
-
     const total = balances.reduce((a, b) => a + b);
-    console.log(total);
 
     return total;
-
   }
 }

@@ -4,50 +4,59 @@
 
 <div class="mat-elevation-z8">
 
+  <div class="error" *ngIf="error">
+    <h2>Error</h2>
+    <p>The data source appears to currently be down.</p>
+  </div>
+
   <div class="loader-wrapper" *ngIf="isLoadingResults">
     <mat-spinner data-test="spinner"></mat-spinner>
   </div>
 
-  <table data-test="table" mat-table class="full-width-table" matSort aria-label="Elements">
-    <!-- Account Number Column -->
-    <ng-container matColumnDef="number">
-      <th data-test="accountNumberColumn" mat-header-cell *matHeaderCellDef mat-sort-header>Account Number</th>
-      <td mat-cell *matCellDef="let row">{{row.accountNumber}}</td>
-      <td class="footer" mat-footer-cell *matFooterCellDef> Balance </td>
-    </ng-container>
 
-    <!-- Account Type Column -->
-    <ng-container matColumnDef="type">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Account Type</th>
-      <td mat-cell *matCellDef="let row">{{row.accountType}}</td>
-      <td class="footer" mat-footer-cell *matFooterCellDef></td>
-    </ng-container>
+  <div *ngIf="!error">
+    <table data-test="table" mat-table class="full-width-table" matSort aria-label="Elements">
+      <!-- Account Number Column -->
+      <ng-container matColumnDef="number">
+        <th data-test="accountNumberColumn" mat-header-cell *matHeaderCellDef mat-sort-header>Account Number</th>
+        <td mat-cell *matCellDef="let row">{{row.accountNumber}}</td>
+        <td class="footer" mat-footer-cell *matFooterCellDef> Balance </td>
+      </ng-container>
 
-    <!-- Account Balance Column -->
-    <ng-container matColumnDef="balance">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Balance</th>
-      <td mat-cell *matCellDef="let row">{{row.balance | currency: 'R '}}</td>
-      <td class="footer" mat-footer-cell *matFooterCellDef> {{ totalBalance | currency: 'R ' }} </td>
-    </ng-container>
+      <!-- Account Type Column -->
+      <ng-container matColumnDef="type">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Account Type</th>
+        <td mat-cell *matCellDef="let row">{{row.accountType}}</td>
+        <td class="footer" mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
 
-    <!-- Action Column -->
-    <ng-container matColumnDef="action">
-      <th  mat-header-cell *matHeaderCellDef></th>
-      <td mat-cell *matCellDef="let row">
-        <button [disabled]="!row.canWithDraw" mat-raised-button color="warn" (click)="withdraw()">Withdraw</button>
-      </td>
-      <td class="footer" mat-footer-cell *matFooterCellDef></td>
-    </ng-container>
+      <!-- Account Balance Column -->
+      <ng-container matColumnDef="balance">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Balance</th>
+        <td mat-cell *matCellDef="let row">{{row.balance | currency: 'R '}}</td>
+        <td data-test="total-balance" class="footer" mat-footer-cell *matFooterCellDef> {{ totalBalance | currency: 'R ' }} </td>
+      </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
-  </table>
+      <!-- Action Column -->
+      <ng-container matColumnDef="action">
+        <th  mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let row">
+          <button data-test="withdrawBtn" [disabled]="!row.canWithDraw" mat-raised-button color="warn" (click)="withdraw()">Withdraw</button>
+        </td>
+        <td class="footer" mat-footer-cell *matFooterCellDef></td>
+      </ng-container>
 
-  <mat-paginator #paginator
-      [length]="dataSource?.data?.length"
-      [pageIndex]="0"
-      [pageSize]="10"
-      [pageSizeOptions]="[5, 10, 20]">
-  </mat-paginator>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      <tr mat-footer-row *matFooterRowDef="displayedColumns"></tr>
+    </table>
+
+    <mat-paginator #paginator
+        [length]="dataSource?.data?.length"
+        [pageIndex]="0"
+        [pageSize]="10"
+        [pageSizeOptions]="[5, 10, 20]">
+    </mat-paginator>
+  </div>
+
 </div>

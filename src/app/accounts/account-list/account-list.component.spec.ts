@@ -6,14 +6,19 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { AccountService } from '../services/account.service';
-
+import { MockData } from '../services/mockData';
 import { AccountListComponent } from './account-list.component';
+import { of } from 'rxjs';
+import { AccountListDataSource } from './account-list-datasource';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('AccountListComponent', () => {
   let component: AccountListComponent;
   let fixture: ComponentFixture<AccountListComponent>;
   let httpClient: HttpClient;
   let service: AccountService;
+  let spy: any;
+  const response = MockData;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
@@ -25,16 +30,18 @@ describe('AccountListComponent', () => {
         MatTableModule,
         HttpClientTestingModule
       ],
-      providers: [AccountService]
+      providers: [],
+      schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    service = TestBed.get(AccountService);
-    httpClient = TestBed.get(HttpClient);
+    service = TestBed.inject(AccountService);
+    httpClient = TestBed.inject(HttpClient);
     fixture = TestBed.createComponent(AccountListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    fixture.nativeElement.style.visibility = 'hidden';
   });
 
   it('should compile the Account List Component', () => {
@@ -67,4 +74,100 @@ describe('AccountListComponent', () => {
     const spinner = fixture.nativeElement.querySelector('[data-test="spinner"]');
     expect(spinner).toBeFalsy();
   }));
+
+  it('should fetch data when the page loads', fakeAsync(() => {
+
+    const dataSpy = jasmine.createSpy('spy');
+    spyOn(service, 'getAccounts').and.returnValue(of(response));
+    service.getAccounts().subscribe(dataSpy);
+
+    tick();
+
+    expect(service.getAccounts).toHaveBeenCalled();
+    expect(dataSpy).toHaveBeenCalledWith(response);
+  }));
+
+  it('should display withdraw buttons for each record after data is fetched', () => {
+    component.accountData = response;
+    component.dataSource = new AccountListDataSource(component.accountData);
+    component.dataSource.sort = component.sort;
+    component.dataSource.paginator = component.paginator;
+    component.table.dataSource = component.dataSource;
+    component.isLoadingResults = false;
+    component.totalBalance = service.getTotalBalance(response);
+
+    fixture.detectChanges();
+
+    const withdrawBtns = fixture.nativeElement.querySelectorAll('[data-test="withdrawBtn"]');
+    expect(withdrawBtns).toBeTruthy();
+    expect(withdrawBtns.length).toEqual(response.length);
+  });
+
+  it('should disable the withdraw button if canWithdraw property is false', () => {
+    response[0].balance = -600;
+    component.accountData = component.mapData(response);
+    component.dataSource = new AccountListDataSource(component.accountData);
+    component.dataSource.sort = component.sort;
+    component.dataSource.paginator = component.paginator;
+    component.table.dataSource = component.dataSource;
+    component.isLoadingResults = false;
+    component.totalBalance = service.getTotalBalance(response);
+    fixture.detectChanges();
+
+    const withdrawBtns = fixture.nativeElement.querySelectorAll('[data-test="withdrawBtn"]');
+    expect(withdrawBtns[0].disabled).toBe(true);
+
+    response[0].balance = 600;
+    component.accountData = component.mapData(response);
+    component.dataSource = new AccountListDataSource(component.accountData);
+    component.dataSource.sort = component.sort;
+    component.dataSource.paginator = component.paginator;
+    component.table.dataSource = component.dataSource;
+    component.isLoadingResults = false;
+    component.totalBalance = service.getTotalBalance(response);
+    fixture.detectChanges();
+
+    const withdrawBtns2 = fixture.nativeElement.querySelectorAll('[data-test="withdrawBtn"]');
+
+    expect(withdrawBtns2[0].disabled).toBe(false);
+
+  });
+
+  it('should call a withdraw method if withdraw button is clicked', () => {
+
+    spyOn(service, 'withdraw').and.returnValue(null);
+
+    component.accountData = component.mapData(response);
+    component.dataSource = new AccountListDataSource(component.accountData);
+    component.dataSource.sort = component.sort;
+    component.dataSource.paginator = component.paginator;
+    component.table.dataSource = component.dataSource;
+    component.isLoadingResults = false;
+    component.totalBalance = service.getTotalBalance(response);
+    fixture.detectChanges();
+
+    const withdrawBtn = fixture.nativeElement.querySelector('[data-test="withdrawBtn"]');
+    withdrawBtn.click();
+
+    expect(withdrawBtn).toBeTruthy();
+    expect(service.withdraw).toHaveBeenCalled();
+
+  });
+
+  it('should display a total balance', fakeAsync(() => {
+    component.accountData = component.mapData(response);
+    component.dataSource = new AccountListDataSource(component.accountData);
+    component.dataSource.sort = component.sort;
+    component.dataSource.paginator = component.paginator;
+    component.table.dataSource = component.dataSource;
+    component.isLoadingResults = false;
+    component.totalBalance = service.getTotalBalance(response);
+    fixture.detectChanges();
+
+    const total = fixture.nativeElement.querySelector('[data-test="total-balance"]');
+    expect(total).toBeTruthy();
+    expect(total.textContent).toEqual(' R 1,732.47 ');
+  }));
+
+
 });

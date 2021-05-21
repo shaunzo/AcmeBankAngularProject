@@ -1,7 +1,8 @@
 
+import { Account } from '../interfaces/account.interface';
 // This is merely mock data to be used for development and testing
 
-export const MockData = [
+export const MockData: Account[] = [
  {
    account_number: '6331103626640816',
    account_type: 'cheque',
